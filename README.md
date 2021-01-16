@@ -2,7 +2,7 @@
 this is a simple project that provide the ability
 of making audio call through python.
 # Installation
-git clone "repo_link".
+git clone https://github.com/BENSARI-Fathi/python-ip-call.git.
 
 cd python-ip-call.
 
