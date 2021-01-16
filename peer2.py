@@ -6,7 +6,7 @@ import queue
 import sys
 
 localCredentials = {
-    'IP': '',
+    'IP': '',  # your ip address
     'PORT': 9001
 }
 remoteCredentials = {
@@ -65,6 +65,7 @@ def output_callback(outdata, frame, time, status):
     try:
         outdata[:] = q_out.get_nowait()
     except queue.Empty:
+        print('[+] Call has end !')
         raise sd.CallbackAbort
 
 
@@ -78,12 +79,13 @@ def main():
     thread1 = threading.Thread(target=send_media, args=(peer,))
     thread2 = threading.Thread(target=audio_call_input)
     thread3 = threading.Thread(target=recv_media, args=(peer,))
-    thread4 = threading.Thread(target=audio_call_output)
+    thread4 = threading.Thread(target=audio_call_output, daemon=True)
     thread2.start()
     thread1.start()
     thread3.start()
-    while not (q_out.qsize() > 200):
-        print(q_out.qsize())
+    while not (q_out.qsize() > 100):
+        print(q_out.qsize(), end='\r')
+    print("[+] Call has started !")
     thread4.start()
 
 
